@@ -67,7 +67,7 @@ const updateArticleProfile = asyncHandler(async (req, res) => {
 const getArticles = asyncHandler(async (req, res) => {
   const keyword = req.query.keyword
     ? {
-        name: {
+      Title: {
           $regex: req.query.keyword,
           $options: 'i',
         },
@@ -170,6 +170,21 @@ const getUserArticleById = asyncHandler(async (req, res) => {
     }
   })
 
+
+  // get les articles que les utilisateurs a like
+  const getUserArticleLikedHandler = asyncHandler(async (req, res) => {
+
+    const Pseudo = parseInt(req.params.pseudo)
+    try {
+      const articles = await  Article.find({LikeUserIds : {$in :Pseudo}})
+      res.json(articles)  
+    } catch (error) {
+      console.log(error)
+    }
+
+  })
+
+
 export {
   registerArticle,
   updateArticleProfile,
@@ -179,5 +194,6 @@ export {
   getUserArticleById,
   createArticleComment,
   getLatestArticle,
-  LikeArticleHandler
+  LikeArticleHandler,
+  getUserArticleLikedHandler
 }

@@ -3,22 +3,22 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import {Server} from 'socket.io'
-import Article from './models/ArticleModel.js'
 import http from 'http'
-import asyncHandler from 'express-async-handler'
+import Io from './socket.js'
 let app = express()
 const PORT = process.env.PORT || 5000;
 const server = http.createServer(app)
-const io = new Server(server,
-  {
-    transports: ['polling'],
-  cors:{
-    cors:{
-      origin: 'http://localhost:3000'
-    }
-  }
-}
-  )
+// const io = new Server(server,
+//   {
+//     transports: ['polling'],
+//     cors:{
+//       origin: 'http://localhost:3000'
+//     }
+//   }
+//   )
+
+
+const io = Io.init(server)
   // deifition du like handler
 
   // verifie si le mec existe ,si oui retourne un tableau ou tul'enleves lui sinon mets le a l'interieur
@@ -46,13 +46,17 @@ app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb'}));
 
 // real time thing
-
+io.on('connection',(socket)=>{
+  console.log(`socket ${socket.id} is connected`)
+})
 // Routage 
 
 
 app.get('/',(req,res)=>{
   res.send("yo it is just a test")
+
 })
+
 
 app.use('/api/users',UserRoutes)
 app.use('/api/articles',ArticlesRoutes)
