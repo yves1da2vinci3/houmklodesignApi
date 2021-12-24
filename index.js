@@ -28,7 +28,7 @@ const io = Io.init(server)
 import UserRoutes from './routes/userRoutes.js';
 import ArticlesRoutes from './routes/articlesRoutes.js'
 import teamRoutes from './routes/teamRoutes.js'
-
+import publishRoutes from './routes/publishRoutes.js'
 
 // connection a la  db
 dotenv.config()
@@ -62,6 +62,7 @@ app.use('/api/users',UserRoutes)
 app.use('/api/articles',ArticlesRoutes)
 app.use('/api/team',teamRoutes)
 
+app.use('/api/publish',publishRoutes)
 server.listen(PORT,(req,res) => {
     console.log('running on')
 })
