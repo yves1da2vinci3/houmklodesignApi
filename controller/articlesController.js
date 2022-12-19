@@ -73,7 +73,7 @@ const getArticles = asyncHandler(async (req, res) => {
         },
       }
     : {}
-  const Articles = await Article.find({ ...keyword })
+  const Articles = await Article.find({ ...keyword }).select("-ArticleContent -comments  ")
   res.json(Articles)
 })
 
